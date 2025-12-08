@@ -57,10 +57,15 @@
         z-index: 2000;
     }
 
-    #selected-window img {
+    #selected-window > img {
         width: 100%;
-        display: block;
+        display: none;
         margin-bottom: 10px;
+    }
+
+    #selected-window div {
+        width: 100%;
+        aspect-ratio: 100;
     }
 
     #applyStickerBtn {
@@ -145,213 +150,293 @@
         border: 2px solid #000;
         cursor: pointer;
     }
+
+    #selected-preview-real {
+        width: 180px;
+        height: 180px;
+        position: relative;
+    }
+        .logo {
+      font-size: 48px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 40px;
+      text-decoration: none;
+      color: black;
+    }
 </style>
 </head>
 
 <body>
+    <!-- 왼쪽 패널 -->
+        <div id="left-panel">
+        <a href="index.html" class="logo">M3m3tick3r</a>
+    
 
-<!-- 왼쪽 패널 -->
-<div id="left-panel">
-    <div id="openPopup">S3l3ct sourc3 imag3</div>
 
-    <!-- 팝업창 -->
-    <div id="popup">
-        <img src="img_1.png">
-        <img src="img_2.png">
-        <img src="img_3.png">
-        <img src="img_4.png">
-        <img src="img_5.png">
+
+        <div id="openPopup">S3l3ct sourc3 imag3</div>
+
+        <!-- 팝업창 -->
+        <div id="popup">
+            <img
+                src="/img_1.png"
+                data-list='[
+                    {"src":"img_1.png","left":100,"top":150},
+                    {"src":"img_1_2.png","left":120,"top":200},
+                    {"src":"img_1_3.png","left":140,"top":250}
+                ]'
+            >
+            <img
+                src="/img_2.png"
+                data-list='[
+                    {"src":"img_2_1.png","left":100,"top":150},
+                    {"src":"img_2_2.png","left":120,"top":200},
+                    {"src":"img_2_3.png","left":140,"top":250}
+                ]'
+            >
+            <img
+                src="/img_3.png"
+                data-list='[
+                    {"src":"img_3_1.png","left":100,"top":150},
+                    {"src":"img_3_2.png","left":120,"top":200},
+                    {"src":"img_3_3.png","left":140,"top":250}
+                ]'
+            >
+            <img
+                src="/img_4.png"
+                data-list='[
+                    {"src":"img_4_1.png","left":100,"top":150},
+                    {"src":"img_4_2.png","left":120,"top":200},
+                    {"src":"img_4_3.png","left":140,"top":250}
+                ]'
+            >
+            <img
+                src="/img_5.png"
+                data-list='[
+                    {"src":"img_5_1.png","left":100,"top":150},
+                    {"src":"img_5_2.png","left":120,"top":200},
+                    {"src":"img_5_3.png","left":140,"top":250}
+                ]'
+            >
+        </div>
     </div>
-</div>
 
-<!-- 클릭한 이미지 아래 뜨는 팝업 -->
-<div id="selected-window">
-    <img id="selected-preview">
-    <div id="applyStickerBtn">Us3 this Stick3r</div>
-</div>
-
-<!-- 오른쪽 작업 패널 -->
-<div id="right-panel">
-    <h2>Drag imag3 h3r3</h2>
-
-    <button id="uploadBtn">Upload Imag3</button>
-    <input type="file" id="bg-upload" accept="image/*" style="display:none;">
-
-    <div id="upload-box">
-        Drag & Drop imag3 h3r3
-        <img id="bg-image">
+    <!-- 클릭한 이미지 아래 뜨는 팝업 -->
+    <div id="selected-window">
+        <img id="selected-preview">
+        <div id="selected-preview-real"></div>
+        <div id="applyStickerBtn">Us3 this Stick3r</div>
     </div>
 
-    <button id="saveBtn">sav3</button>
-</div>
+    <!-- 오른쪽 작업 패널 -->
+    <div id="right-panel">
+        <h2>Drag imag3 h3r3</h2>
 
-<script>
-/* ------------------------------
-   드래그/업로드 기능
------------------------------- */
-const uploadBox = document.getElementById("upload-box");
-const bgUpload = document.getElementById("bg-upload");
-const bgImage = document.getElementById("bg-image");
+        <button id="uploadBtn">Upload Imag3</button>
+        <input type="file" id="bg-upload" accept="image/*" style="display:none;">
 
-uploadBox.addEventListener("dragover", e => e.preventDefault());
+        <div id="upload-box">
+            Drag & Drop imag3 h3r3
+            <img id="bg-image">
+        </div>
 
-uploadBox.addEventListener("drop", e => {
-    e.preventDefault();
-    loadBackground(e.dataTransfer.files[0]);
-});
+        <button id="saveBtn">sav3</button>
+    </div>
 
-document.getElementById("uploadBtn").addEventListener("click", () => {
-    bgUpload.click();
-});
+    <script>
+        /* ------------------------------
+        드래그/업로드 기능
+        ------------------------------ */
+        const uploadBox = document.getElementById("upload-box");
+        const bgUpload = document.getElementById("bg-upload");
+        const bgImage = document.getElementById("bg-image");
 
-bgUpload.addEventListener("change", e => {
-    loadBackground(e.target.files[0]);
-});
+        uploadBox.addEventListener("dragover", e => e.preventDefault());
 
-function loadBackground(file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => bgImage.src = ev.target.result;
-    reader.readAsDataURL(file);
-}
+        uploadBox.addEventListener("drop", e => {
+            e.preventDefault();
+            loadBackground(e.dataTransfer.files[0]);
+        });
 
-/* ------------------------------
-   팝업 토글
------------------------------- */
-document.getElementById("openPopup").addEventListener("click", () => {
-    const popup = document.getElementById("popup");
-    popup.style.display = popup.style.display === "block" ? "none" : "block";
-});
+        document.getElementById("uploadBtn").addEventListener("click", () => {
+            bgUpload.click();
+        });
 
-/* ------------------------------
-   팝업 이미지 클릭 → 클릭한 이미지 아래에 미니창 표시
------------------------------- */
-document.querySelectorAll("#popup img").forEach(img => {
-    img.addEventListener("click", e => {
-        const src = e.target.src;
+        bgUpload.addEventListener("change", e => {
+            loadBackground(e.target.files[0]);
+        });
 
-        const rect = e.target.getBoundingClientRect();
-        const win = document.getElementById("selected-window");
-
-        win.style.display = "block";
-        win.style.left = rect.left + "px";
-        win.style.top = (rect.bottom + 8) + "px";
-
-        document.getElementById("selected-preview").src = src;
-
-        document.getElementById("applyStickerBtn").onclick = () => {
-            addSticker(src);
-        };
-    });
-});
-
-/* ------------------------------
-   스티커 추가
------------------------------- */
-function addSticker(src) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "sticker-wrapper";
-    wrapper.style.left = "120px";
-    wrapper.style.top = "120px";
-    wrapper.style.zIndex = 10;
-
-    const st = document.createElement("img");
-    st.src = src;
-    st.className = "placed-sticker";
-
-    const handle = document.createElement("div");
-    handle.className = "resize-handle";
-
-    wrapper.appendChild(st);
-    wrapper.appendChild(handle);
-    uploadBox.appendChild(wrapper);
-
-    makeDraggable(wrapper);
-    makeResizable(wrapper, handle);
-}
-
-/* ------------------------------
-   스티커 드래그 이벤트
------------------------------- */
-function makeDraggable(wrapper) {
-    let isDown = false;
-    let offsetX = 0, offsetY = 0;
-
-    wrapper.addEventListener("mousedown", e => {
-        if (e.target.classList.contains("resize-handle")) return;
-
-        isDown = true;
-        offsetX = e.offsetX;
-        offsetY = e.offsetY;
-
-        wrapper.style.zIndex = Number(wrapper.style.zIndex || 10) + 1;
-    });
-
-    document.addEventListener("mouseup", () => isDown = false);
-
-    document.addEventListener("mousemove", e => {
-        if (!isDown) return;
-
-        const rect = uploadBox.getBoundingClientRect();
-        wrapper.style.left = (e.pageX - rect.left - offsetX) + "px";
-        wrapper.style.top = (e.pageY - rect.top - offsetY) + "px";
-    });
-}
-
-/* ------------------------------
-   크기 조절 이벤트
------------------------------- */
-function makeResizable(wrapper, handle) {
-    let resizing = false;
-
-    handle.addEventListener("mousedown", e => {
-        resizing = true;
-        e.stopPropagation();
-    });
-
-    document.addEventListener("mouseup", () => resizing = false);
-
-    document.addEventListener("mousemove", e => {
-        if (!resizing) return;
-
-        const rect = wrapper.getBoundingClientRect();
-        const newWidth = e.pageX - rect.left;
-
-        if (newWidth > 40) {
-            wrapper.style.width = newWidth + "px";
+        function loadBackground(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => bgImage.src = ev.target.result;
+            reader.readAsDataURL(file);
         }
+
+        /* ------------------------------
+        팝업 토글
+        ------------------------------ */
+        document.getElementById("openPopup").addEventListener("click", () => {
+            const popup = document.getElementById("popup");
+            popup.style.display = popup.style.display === "block" ? "none" : "block";
+        });
+
+        /* ------------------------------
+        팝업 이미지 클릭 → 클릭한 이미지 아래에 미니창 표시
+        ------------------------------ */
+        document.querySelectorAll("#popup img").forEach(img => {
+        img.addEventListener("click", e => {
+
+            const srcArray = JSON.parse(e.target.dataset.list); // 객체 배열
+
+            const rect = e.target.getBoundingClientRect();
+            const win = document.getElementById("selected-window");
+
+            win.style.display = "block";
+            win.style.left = rect.left + "px";
+            win.style.top = (rect.bottom + 8) + "px";
+
+            /* ---------------------------------
+            selected-preview 안에 여러 이미지 추가
+            --------------------------------- */
+            const preview = document.getElementById("selected-preview-real");
+            preview.innerHTML = ""; // 먼저 비움
+            preview.style.position = "relative";
+
+            srcArray.forEach(obj => {
+                const p = document.createElement("img");
+                p.src = obj.src;
+                p.className = "preview-sticker";
+                p.style.position = "absolute";
+                p.style.left = obj.left-100 + "px";
+                p.style.top = obj.top-150 + "px";
+                p.style.width = "80px";      // 필요하면 조정
+                p.style.pointerEvents = "none"; // 클릭 방지
+
+                preview.appendChild(p);
+            });
+
+            /* ---------------------------------
+            버튼 눌렀을 때 sticker 여러 개 추가
+            --------------------------------- */
+            document.getElementById("applyStickerBtn").onclick = () => {
+                srcArray.forEach(obj => addSticker(obj));
+            };
+        });
     });
-}
 
-/* ------------------------------
-   이미지 저장
------------------------------- */
-document.getElementById("saveBtn").addEventListener("click", () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = uploadBox.offsetWidth;
-    canvas.height = uploadBox.offsetHeight;
-    const ctx = canvas.getContext("2d");
+        /* ------------------------------
+        스티커 추가
+        ------------------------------ */
+        function addSticker(img) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "sticker-wrapper";
+            wrapper.style.left = img.left + "px";
+            wrapper.style.top = img.top + "px";
+            wrapper.style.zIndex = 10;
 
-    if (bgImage.src) {
-        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
-    }
+            const st = document.createElement("img");
+            st.src = img.src;
+            st.className = "placed-sticker";
 
-    document.querySelectorAll(".sticker-wrapper").forEach(w => {
-        const img = w.querySelector("img");
-        const x = parseInt(w.style.left);
-        const y = parseInt(w.style.top);
-        const wdt = w.offsetWidth;
-        const hgt = img.offsetHeight * (wdt / img.naturalWidth);
+            const handle = document.createElement("div");
+            handle.className = "resize-handle";
 
-        ctx.drawImage(img, x, y, wdt, hgt);
-    });
+            wrapper.appendChild(st);
+            wrapper.appendChild(handle);
 
-    const link = document.createElement("a");
-    link.href = canvas.toDataURL("image/png");
-    link.download = "final_image.png";
-    link.click();
-});
-</script>
+            uploadBox.appendChild(wrapper);
+
+            makeDraggable(wrapper);
+            makeResizable(wrapper, handle);
+        }
+
+        /* ------------------------------
+        스티커 드래그 이벤트
+        ------------------------------ */
+        function makeDraggable(wrapper) {
+            let isDown = false;
+            let offsetX = 0, offsetY = 0;
+
+            wrapper.addEventListener("mousedown", e => {
+                if (e.target.classList.contains("resize-handle")) return;
+
+                isDown = true;
+                offsetX = e.offsetX;
+                offsetY = e.offsetY;
+
+                wrapper.style.zIndex = Number(wrapper.style.zIndex || 10) + 1;
+            });
+
+            document.addEventListener("mouseup", () => isDown = false);
+
+            document.addEventListener("mousemove", e => {
+                if (!isDown) return;
+
+                const rect = uploadBox.getBoundingClientRect();
+                wrapper.style.left = (e.pageX - rect.left - offsetX) + "px";
+                wrapper.style.top = (e.pageY - rect.top - offsetY) + "px";
+            });
+        }
+
+        /* ------------------------------
+        크기 조절 이벤트
+        ------------------------------ */
+        function makeResizable(wrapper, handle) {
+            let resizing = false;
+
+            handle.addEventListener("mousedown", e => {
+                resizing = true;
+                e.stopPropagation();
+            });
+
+            document.addEventListener("mouseup", () => resizing = false);
+
+            document.addEventListener("mousemove", e => {
+                if (!resizing) return;
+
+                const rect = wrapper.getBoundingClientRect();
+                const newWidth = e.pageX - rect.left;
+
+                if (newWidth > 40) {
+                    wrapper.style.width = newWidth + "px";
+                }
+            });
+        }
+
+        /* ------------------------------
+        이미지 저장
+        ------------------------------ */
+        document.getElementById("saveBtn").addEventListener("click", () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = uploadBox.offsetWidth;
+            canvas.height = uploadBox.offsetHeight;
+            const ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0,0,canvas.width, canvas.height);
+
+            if (bgImage.src) {
+                ctx.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height);
+            }
+
+            document.querySelectorAll(".sticker-wrapper").forEach(w => {
+                const img = w.querySelector("img");
+                const x = parseInt(w.style.left);
+                const y = parseInt(w.style.top);
+                const wdt = w.offsetWidth;
+                const hgt = img.offsetHeight * (wdt / img.naturalWidth);
+
+                ctx.drawImage(img, x, y, img.width, img.height);
+            });
+
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "final_image.png";
+            link.click();
+        });
+    </script>
 
 </body>
 </html>
