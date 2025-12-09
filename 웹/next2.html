@@ -14,7 +14,7 @@
 
     /* 왼쪽 영역 */
     #left-panel {
-        width: 250px;
+        width: 400px;
         border-right: 2px solid #ccc;
         padding: 15px;
     }
@@ -32,7 +32,7 @@
         position: fixed;
         top: 50px;
         left: 50px;
-        width: 220px;
+        width: 300px;
         padding: 15px;
         background: #fff;
         border: 2px solid #000;
@@ -41,15 +41,16 @@
     }
 
     #popup img {
-        width: 90px;
+        width: 250px;
         margin: 5px;
         cursor: pointer;
     }
+    
 
     /* 클릭한 이미지 아래 뜨는 세부 팝업 */
     #selected-window {
         position: fixed;
-        width: 180px;
+        width: 300px;
         padding: 12px;
         background: #fff;
         border: 2px solid #000;
@@ -58,18 +59,18 @@
     }
 
     #selected-window > img {
-        width: 100%;
+        width: 300px;
         display: none;
         margin-bottom: 10px;
     }
 
     #selected-window div {
-        width: 100%;
+        width: 300px;
         aspect-ratio: 100;
     }
 
     #applyStickerBtn {
-        width: 100%;
+        width: 90%;
         padding: 8px;
         border: 2px solid #000;
         cursor: pointer;
@@ -111,7 +112,7 @@
     /* 스티커 */
     .sticker-wrapper {
         position: absolute;
-        width: 120px;
+        width: 200px;
         height: auto;
     }
 
@@ -142,6 +143,29 @@
         font-size: 18px;
         cursor: pointer;
     }
+/* 스티커 컨트롤 버튼 */
+.control-btn {
+    position: absolute;
+    top: -12px;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border: 2px solid #000;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1001;
+}
+
+.rotate-btn {
+    right: 20px;
+}
+
+.delete-btn {
+    right: -12px;
+}
 
     #uploadBtn {
         margin-top: 15px;
@@ -152,8 +176,8 @@
     }
 
     #selected-preview-real {
-        width: 180px;
-        height: 180px;
+        width: 350px;
+        height: 450px;
         position: relative;
     }
         .logo {
@@ -163,7 +187,56 @@
       margin-bottom: 40px;
       text-decoration: none;
       color: black;
+
+      
     }
+    #closePopup {
+   position: absolute !important;
+    top: 6px !important;
+    right: 6px !important;
+
+    width: 22px !important;
+    height: 22px !important;
+
+    font-size: 14px !important;
+    font-weight: bold !important;
+
+    border: 2px solid #000 !important;
+    background: #fff !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    cursor: pointer !important;
+    z-index: 99999 !important;
+}
+
+#closeSelected {
+    position: absolute !important;
+    top: 6px !important;
+    right: 6px !important;
+
+    width: 22px !important;
+    height: 22px !important;
+
+    font-size: 14px !important;
+    font-weight: bold !important;
+
+    border: 2px solid #000 !important;
+    background: #fff !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    cursor: pointer !important;
+    z-index: 99999 !important;
+}
+
+
+
+
 </style>
 </head>
 
@@ -175,59 +248,50 @@
 
 
 
-        <div id="openPopup">S3l3ct sourc3 imag3</div>
+        <div id="openPopup">S3l3ct sourc3 3motion</div>
 
         <!-- 팝업창 -->
         <div id="popup">
+    <div id="closePopup">×</div>
+
             <img
-                src="/img_1.png"
+                src="/img.png"
                 data-list='[
                     {"src":"img_1.png","left":100,"top":150},
-                    {"src":"img_1_2.png","left":120,"top":200},
-                    {"src":"img_1_3.png","left":140,"top":250}
+                    {"src":"img_1_1.png","left":90,"top":260},
+                    {"src":"img_1_3.png","left":100,"top":450}
                 ]'
             >
             <img
                 src="/img_2.png"
                 data-list='[
-                    {"src":"img_2_1.png","left":100,"top":150},
-                    {"src":"img_2_2.png","left":120,"top":200},
-                    {"src":"img_2_3.png","left":140,"top":250}
+                    {"src":"img_2_2.png","left":100,"top":200},
+                    {"src":"img_2_3.png","left":100,"top":280}
                 ]'
             >
             <img
                 src="/img_3.png"
                 data-list='[
-                    {"src":"img_3_1.png","left":100,"top":150},
-                    {"src":"img_3_2.png","left":120,"top":200},
-                    {"src":"img_3_3.png","left":140,"top":250}
+                    
+                    {"src":"img_3_2.png","left":100,"top":200}
                 ]'
             >
-            <img
-                src="/img_4.png"
-                data-list='[
-                    {"src":"img_4_1.png","left":100,"top":150},
-                    {"src":"img_4_2.png","left":120,"top":200},
-                    {"src":"img_4_3.png","left":140,"top":250}
-                ]'
-            >
-            <img
-                src="/img_5.png"
-                data-list='[
-                    {"src":"img_5_1.png","left":100,"top":150},
-                    {"src":"img_5_2.png","left":120,"top":200},
-                    {"src":"img_5_3.png","left":140,"top":250}
-                ]'
-            >
+            
+            
         </div>
     </div>
+    
+    
 
     <!-- 클릭한 이미지 아래 뜨는 팝업 -->
     <div id="selected-window">
-        <img id="selected-preview">
-        <div id="selected-preview-real"></div>
-        <div id="applyStickerBtn">Us3 this Stick3r</div>
-    </div>
+<div id="closeSelected">×</div>
+
+    <img id="selected-preview">
+    <div id="selected-preview-real"></div>
+    <div id="applyStickerBtn">Us3 this Stick3r</div>
+</div>
+
 
     <!-- 오른쪽 작업 패널 -->
     <div id="right-panel">
@@ -311,7 +375,7 @@
                 p.style.position = "absolute";
                 p.style.left = obj.left-100 + "px";
                 p.style.top = obj.top-150 + "px";
-                p.style.width = "80px";      // 필요하면 조정
+                p.style.width = "300px";      // 필요하면 조정
                 p.style.pointerEvents = "none"; // 클릭 방지
 
                 preview.appendChild(p);
@@ -324,33 +388,59 @@
                 srcArray.forEach(obj => addSticker(obj));
             };
         });
+        document.getElementById("closePopup").addEventListener("click", () => {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("selected-window").style.display = "none";
+});
+
     });
 
-        /* ------------------------------
-        스티커 추가
-        ------------------------------ */
         function addSticker(img) {
-            const wrapper = document.createElement("div");
-            wrapper.className = "sticker-wrapper";
-            wrapper.style.left = img.left + "px";
-            wrapper.style.top = img.top + "px";
-            wrapper.style.zIndex = 10;
+    const wrapper = document.createElement("div");
+    wrapper.className = "sticker-wrapper";
+    wrapper.style.left = img.left + "px";
+    wrapper.style.top = img.top + "px";
+    wrapper.style.zIndex = 10;
+    wrapper.dataset.rotate = 0;
 
-            const st = document.createElement("img");
-            st.src = img.src;
-            st.className = "placed-sticker";
+    const st = document.createElement("img");
+    st.src = img.src;
+    st.className = "placed-sticker";
 
-            const handle = document.createElement("div");
-            handle.className = "resize-handle";
+    const handle = document.createElement("div");
+    handle.className = "resize-handle";
 
-            wrapper.appendChild(st);
-            wrapper.appendChild(handle);
+    /* ===== 삭제 버튼 ===== */
+    const delBtn = document.createElement("div");
+    delBtn.className = "control-btn delete-btn";
+    delBtn.innerHTML = "×";
+    delBtn.onclick = () => wrapper.remove();
 
-            uploadBox.appendChild(wrapper);
+    
 
-            makeDraggable(wrapper);
-            makeResizable(wrapper, handle);
-        }
+    /* ===== 회전 버튼 ===== */
+    const rotateBtn = document.createElement("div");
+    rotateBtn.className = "control-btn rotate-btn";
+    rotateBtn.innerHTML = "⟳";
+    rotateBtn.onclick = () => {
+        let angle = Number(wrapper.dataset.rotate || 0);
+        angle += 15;
+        wrapper.dataset.rotate = angle;
+        wrapper.style.transform = `rotate(${angle}deg)`;
+        
+    };
+
+    wrapper.appendChild(st);
+    wrapper.appendChild(handle);
+    wrapper.appendChild(delBtn);
+    wrapper.appendChild(rotateBtn);
+
+    uploadBox.appendChild(wrapper);
+
+    makeDraggable(wrapper);
+    makeResizable(wrapper, handle);
+}
+
 
         /* ------------------------------
         스티커 드래그 이벤트
@@ -436,7 +526,16 @@
             link.download = "final_image.png";
             link.click();
         });
+        document.getElementById("closeSelected").addEventListener("click", () => {
+    document.getElementById("selected-window").style.display = "none";
+});
+
     </script>
 
 </body>
 </html>
+
+
+
+
+
