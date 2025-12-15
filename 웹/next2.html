@@ -1,541 +1,419 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Sticker Editor</title>
-
+<meta charset="UTF-8" />
+<title>Sticker Editor (Stable)</title>
 <style>
-    body {
-        margin: 0;
-        display: flex;
-        font-family: Arial;
-        user-select: none;
-    }
+  body { margin:0; display:flex; font-family:Arial, sans-serif; user-select:none; }
+  #left-panel { width:500px; border-right:2px solid #ccc; padding:15px; }
+  .logo { font-size:48px; font-weight:700; margin-bottom:20px; color:#000; display:block; text-decoration:none; }
+  .sub-title { font-size:20px; font-weight:600; margin-bottom:12px; }
 
-    /* 왼쪽 영역 */
-    #left-panel {
-        width: 400px;
-        border-right: 2px solid #ccc;
-        padding: 15px;
-    }
+  /* 버튼 이미지 */
+  .select-btn { width:150px; cursor:pointer; margin-right:8px; }
+  
 
-    #openPopup {
-        font-size: 30px;
-        cursor: pointer;
-        font-weight: 500;
-        display: inline-block;
-        
-    }
+  
+  .popup-style {
+  position:absolute;
+  display:none;
+  background:#fff;
+  padding:10px;
+  border-radius:8px;
+  box-shadow:0 0 20px rgba(0,0,0,.2);
 
-    /* 팝업창 */
-    #popup {
-        position: fixed;
-        top: 50px;
-        left: 50px;
-        width: 300px;
-        padding: 15px;
-        background: #fff;
-        border: 2px solid #000;
-        display: none;
-        z-index: 1000;
-    }
-
-    #popup img {
-        width: 250px;
-        margin: 5px;
-        cursor: pointer;
-    }
-    
-
-    /* 클릭한 이미지 아래 뜨는 세부 팝업 */
-    #selected-window {
-        position: fixed;
-        width: 300px;
-        padding: 12px;
-        background: #fff;
-        border: 2px solid #000;
-        display: none;
-        z-index: 2000;
-    }
-
-    #selected-window > img {
-        width: 300px;
-        display: none;
-        margin-bottom: 10px;
-    }
-
-    #selected-window div {
-        width: 300px;
-        aspect-ratio: 100;
-    }
-
-    #applyStickerBtn {
-        width: 90%;
-        padding: 8px;
-        border: 2px solid #000;
-        cursor: pointer;
-        text-align: center;
-        background: #eee;
-    }
-
-    /* 오른쪽 작업 영역 */
-    #right-panel {
-        flex: 1;
-        padding: 20px;
-    }
-
-    #upload-box {
-        
-        width: 100%;
-        height: 550px;
-        background: #f5f5f5;
-        border: 3px dashed #aaa;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 22px;
-        color: #777;
-    }
-
-    #bg-image {
-        max-width: 100%;
-        max-height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        object-fit: contain;
-    }
-
-    /* 스티커 */
-    .sticker-wrapper {
-        position: absolute;
-        width: 200px;
-        height: auto;
-    }
-
-    .placed-sticker {
-        width: 100%;
-        height: auto;
-        cursor: move;
-        display: block;
-        pointer-events: none;
-    }
-
-    /* 크기 조절 */
-    .resize-handle {
-        width: 18px;
-        height: 18px;
-        background: #fff;
-        border: 2px solid #000;
-        position: absolute;
-        right: -10px;
-        bottom: -10px;
-        cursor: se-resize;
-        z-index: 999;
-    }
-
-    #saveBtn {
-        margin-top: 20px;
-        padding: 12px 25px;
-        font-size: 18px;
-        cursor: pointer;
-    }
-/* 스티커 컨트롤 버튼 */
-.control-btn {
-    position: absolute;
-    top: -12px;
-    width: 22px;
-    height: 22px;
-    background: #fff;
-    border: 2px solid #000;
-    font-size: 14px;
-    line-height: 18px;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-    z-index: 1001;
+  /* ⭐ 핵심 */
+  width:fit-content;
+  height:fit-content;
 }
 
-.rotate-btn {
-    right: 20px;
-}
-
-.delete-btn {
-    right: -12px;
-}
-
-    #uploadBtn {
-        margin-top: 15px;
-        padding: 10px 15px;
-        font-size: 16px;
-        border: 2px solid #000;
-        cursor: pointer;
-    }
-
-    #selected-preview-real {
-        width: 350px;
-        height: 450px;
-        position: relative;
-    }
-        .logo {
-      font-size: 48px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-bottom: 40px;
-      text-decoration: none;
-      color: black;
-
-      
-    }
-    #closePopup {
-   position: absolute !important;
-    top: 6px !important;
-    right: 6px !important;
-
-    width: 22px !important;
-    height: 22px !important;
-
-    font-size: 14px !important;
-    font-weight: bold !important;
-
-    border: 2px solid #000 !important;
-    background: #fff !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    cursor: pointer !important;
-    z-index: 99999 !important;
-}
-
-#closeSelected {
-    position: absolute !important;
-    top: 6px !important;
-    right: 6px !important;
-
-    width: 22px !important;
-    height: 22px !important;
-
-    font-size: 14px !important;
-    font-weight: bold !important;
-
-    border: 2px solid #000 !important;
-    background: #fff !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    cursor: pointer !important;
-    z-index: 99999 !important;
+.popup-style .popup-thumb{
+  width:auto;
+  height:auto;
+  margin:4px;
+  display:block;     /* 세로 정렬 */
 }
 
 
+  .closeBtn {
+    position:absolute; top:6px; right:6px; width:22px; height:22px;
+    border:2px solid #000; background:#fff; text-align:center; line-height:18px; font-weight:bold; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+  }
 
+  #selected-window {
+    position:fixed; width:320px; padding:12px; background:#fff; border:2px solid #000; display:none; z-index:2000; height: 500px;
+  }
+#selected-preview-real { 
+  width:300px; 
+  height:auto;       /* 고정 높이 제거 */
+  min-height:280px;  /* 최소 높이만 유지 */
+  position:relative; 
+  overflow:visible;  /* 잘림 방지 */
+}
+#applyStickerBtn {
+  position: absolute;
+  left: 20px;   /* 왼쪽에서 거리 */
+  bottom: 20px; /* 아래에서 거리 */
 
+  padding: 8px;
+  border: 2px solid #000;
+  background: #eee;
+  text-align: center;
+  cursor: pointer;
+}
+
+  #right-panel { flex:1; padding:20px; }
+  #upload-box { width:100%; height:550px; border:3px dashed #aaa; background:#f5f5f5; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  #bg-image { position:absolute; max-width:100%; max-height:100%; pointer-events:none; }
+
+  .sticker-wrapper { position:absolute; width:200px; transform-origin:center center; }
+  .sticker-wrapper img { width:100%; display:block; pointer-events:none; user-select:none; }
+  .resize-handle { width:18px; height:18px; background:#fff; border:2px solid #000; position:absolute; right:-10px; bottom:-10px; cursor:se-resize; }
+  .control-btn { position:absolute; top:-12px; width:22px; height:22px; border:2px solid #000; background:#fff; text-align:center; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .rotate-btn { right:20px; } .delete-btn { right:-12px; }
 </style>
 </head>
-
 <body>
-    <!-- 왼쪽 패널 -->
-        <div id="left-panel">
-        <a href="index.html" class="logo">M3m3tick3r</a>
-    
+  <div id="left-panel">
+    <a class="logo" href="index.html">M3m3tick3r</a>
+    <div class="sub-title">S3l3ct sourc3 3motion</div>
 
+    <!-- 선택 버튼들 -->
+    <img src="select.png" id="btn0" class="select-btn" alt="select0">
+    <img src="select_1.png" id="btn1" class="select-btn" alt="select1">
+    <img src="select_2.png" id="btn2" class="select-btn" alt="select2">
 
-
-        <div id="openPopup">S3l3ct sourc3 3motion</div>
-
-        <!-- 팝업창 -->
-        <div id="popup">
-    <div id="closePopup">×</div>
-
-            <img
-                src="/img.png"
-                data-list='[
-                    {"src":"img_1.png","left":100,"top":150},
-                    {"src":"img_1_1.png","left":90,"top":260},
-                    {"src":"img_1_3.png","left":100,"top":450}
-                ]'
-            >
-            <img
-                src="/img_2.png"
-                data-list='[
-                    {"src":"img_2_2.png","left":100,"top":200},
-                    {"src":"img_2_3.png","left":100,"top":280}
-                ]'
-            >
-            <img
-                src="/img_3.png"
-                data-list='[
-                    
-                    {"src":"img_3_2.png","left":100,"top":200}
-                ]'
-            >
-            
-            
-        </div>
+    <!-- 팝업 1 -->
+    <div id="popup0" class="popup-style" aria-hidden="true">
+      <div class="closeBtn" data-for="popup0">×</div>
+      <!-- 여러 썸네일(클릭하면 두번째 팝업이 뜸) -->
+      <img class="popup-thumb" src="img_3.png" data-list='[{"src":"img_3_2.png","left":100,"top":250}]'>
+      <img class="popup-thumb" src="img_11.png" data-list='[{"src":"img_11_3.png","left":120,"top":180}, {"src":"img_11_2.png","left":120,"top":450}]'>
+      <img class="popup-thumb" src="img_9.png" data-list='[{"src":"img_9_2.png","left":100,"top":250}]'>
+      <img class="popup-thumb" src="img_13.png" data-list='[{"src":"img_13.png","left":120,"top":180}]'>
     </div>
-    
+
+    <!-- 팝업 2 -->
+    <div id="popup1" class="popup-style" aria-hidden="true">
+      <div class="closeBtn" data-for="popup1">×</div>
+      <img class="popup-thumb" src="img_10.png" data-list='[{"src":"img_10_1.png","left":120,"top":180},{"src":"img_10.png","left":120,"top":450}]' alt="p1-1">
+      <img class="popup-thumb" src="img_5.png" data-list='[{"src":"img_5.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_12.png" data-list='[{"src":"img_12_2.png","left":120,"top":250},{"src":"img_12_3.png","left":120,"top":250} ]'>
+      <img class="popup-thumb" src="img_6.png" data-list='[{"src":"img_6.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_2.png" data-list='[{"src":"img_2_2.png","left":120,"top":350},{"src":"img_2_3.png","left":120,"top":180} ]'>
+
+    </div>
+
     
 
-    <!-- 클릭한 이미지 아래 뜨는 팝업 -->
-    <div id="selected-window">
-<div id="closeSelected">×</div>
+    <!-- 팝업 3 -->
+    <div id="popup2" class="popup-style" aria-hidden="true">
+      <div class="closeBtn" data-for="popup2">×</div>
+      <img class="popup-thumb" src="img_7.png" data-list='[{"src":"img_7.png","left":120,"top":180},{"src":"img_7_2.png","left":120,"top":250}]'>
+    </div>
+  </div>
 
-    <img id="selected-preview">
+  <!-- 두번째(세부) 팝업: 선택 미리보기 -->
+  <div id="selected-window" role="dialog" aria-hidden="true">
+    <div class="closeBtn" id="close-selected-window">×</div>
     <div id="selected-preview-real"></div>
     <div id="applyStickerBtn">Us3 this Stick3r</div>
-</div>
+  </div>
 
-
-    <!-- 오른쪽 작업 패널 -->
-    <div id="right-panel">
-        <h2>Drag imag3 h3r3</h2>
-
-        <button id="uploadBtn">Upload Imag3</button>
-        <input type="file" id="bg-upload" accept="image/*" style="display:none;">
-
-        <div id="upload-box">
-            Drag & Drop imag3 h3r3
-            <img id="bg-image">
-        </div>
-
-        <button id="saveBtn">sav3</button>
+  <div id="right-panel">
+    <button id="uploadBtn">Upload Imag3</button>
+    <input type="file" id="bg-upload" accept="image/*" style="display:none">
+    <div id="upload-box">Drag & Drop imag3 h3r3
+      <img id="bg-image" alt="">
     </div>
+    <button id="saveBtn">sav3</button>
+  </div>
 
-    <script>
-        /* ------------------------------
-        드래그/업로드 기능
-        ------------------------------ */
-        const uploadBox = document.getElementById("upload-box");
-        const bgUpload = document.getElementById("bg-upload");
-        const bgImage = document.getElementById("bg-image");
+<script>
+document.addEventListener('DOMContentLoaded', ()=> {
+  console.log('DOM loaded');
 
-        uploadBox.addEventListener("dragover", e => e.preventDefault());
+  // upload / drop background
+  const uploadBox = document.getElementById('upload-box');
+  const bgUpload = document.getElementById('bg-upload');
+  const bgImage = document.getElementById('bg-image');
 
-        uploadBox.addEventListener("drop", e => {
-            e.preventDefault();
-            loadBackground(e.dataTransfer.files[0]);
-        });
+  document.getElementById('uploadBtn').addEventListener('click', ()=> bgUpload.click());
+  bgUpload.addEventListener('change', e => { if(e.target.files[0]) readBG(e.target.files[0]); });
+  uploadBox.addEventListener('dragover', e => e.preventDefault());
+  uploadBox.addEventListener('drop', e => { e.preventDefault(); if(e.dataTransfer.files[0]) readBG(e.dataTransfer.files[0]); });
 
-        document.getElementById("uploadBtn").addEventListener("click", () => {
-            bgUpload.click();
-        });
+  function readBG(file){
+    const r = new FileReader();
+    r.onload = ev => { bgImage.src = ev.target.result; };
+    r.readAsDataURL(file);
+  }
 
-        bgUpload.addEventListener("change", e => {
-            loadBackground(e.target.files[0]);
-        });
-
-        function loadBackground(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = ev => bgImage.src = ev.target.result;
-            reader.readAsDataURL(file);
-        }
-
-        /* ------------------------------
-        팝업 토글
-        ------------------------------ */
-        document.getElementById("openPopup").addEventListener("click", () => {
-            const popup = document.getElementById("popup");
-            popup.style.display = popup.style.display === "block" ? "none" : "block";
-        });
-
-        /* ------------------------------
-        팝업 이미지 클릭 → 클릭한 이미지 아래에 미니창 표시
-        ------------------------------ */
-        document.querySelectorAll("#popup img").forEach(img => {
-        img.addEventListener("click", e => {
-
-            const srcArray = JSON.parse(e.target.dataset.list); // 객체 배열
-
-            const rect = e.target.getBoundingClientRect();
-            const win = document.getElementById("selected-window");
-
-            win.style.display = "block";
-            win.style.left = rect.left + "px";
-            win.style.top = (rect.bottom + 8) + "px";
-
-            /* ---------------------------------
-            selected-preview 안에 여러 이미지 추가
-            --------------------------------- */
-            const preview = document.getElementById("selected-preview-real");
-            preview.innerHTML = ""; // 먼저 비움
-            preview.style.position = "relative";
-
-            srcArray.forEach(obj => {
-                const p = document.createElement("img");
-                p.src = obj.src;
-                p.className = "preview-sticker";
-                p.style.position = "absolute";
-                p.style.left = obj.left-100 + "px";
-                p.style.top = obj.top-150 + "px";
-                p.style.width = "300px";      // 필요하면 조정
-                p.style.pointerEvents = "none"; // 클릭 방지
-
-                preview.appendChild(p);
-            });
-
-            /* ---------------------------------
-            버튼 눌렀을 때 sticker 여러 개 추가
-            --------------------------------- */
-            document.getElementById("applyStickerBtn").onclick = () => {
-                srcArray.forEach(obj => addSticker(obj));
-            };
-        });
-        document.getElementById("closePopup").addEventListener("click", () => {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("selected-window").style.display = "none";
-});
-
+  // map buttons to popup ids
+  const map = { btn0:'popup0', btn1:'popup1', btn2:'popup2' };
+  Object.keys(map).forEach(btnId => {
+    const btn = document.getElementById(btnId);
+    if(!btn) return;
+    btn.addEventListener('click', ()=>{
+      console.log('open popup:', map[btnId]);
+      // hide others
+      document.querySelectorAll('.popup-style').forEach(p=> { p.style.display='none'; p.setAttribute('aria-hidden','true'); });
+      const pop = document.getElementById(map[btnId]);
+      pop.style.display = 'block';
+      pop.setAttribute('aria-hidden','false');
     });
+  });
 
-        function addSticker(img) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "sticker-wrapper";
-    wrapper.style.left = img.left + "px";
-    wrapper.style.top = img.top + "px";
-    wrapper.style.zIndex = 10;
-    wrapper.dataset.rotate = 0;
+  // close buttons inside each popup
+  document.querySelectorAll('.popup-style').forEach(popup=>{
+    const close = popup.querySelector('.closeBtn');
+    if(close){
+      close.addEventListener('click', ()=> {
+        popup.style.display='none';
+        popup.setAttribute('aria-hidden','true');
+        document.getElementById('selected-window').style.display='none';
+        document.getElementById('selected-window').setAttribute('aria-hidden','true');
+      });
+    }
+  });
 
-    const st = document.createElement("img");
-    st.src = img.src;
-    st.className = "placed-sticker";
+  // close selected-window
+  document.getElementById('close-selected-window').addEventListener('click', ()=>{
+    document.getElementById('selected-window').style.display='none';
+    document.getElementById('selected-window').setAttribute('aria-hidden','true');
+  });
 
-    const handle = document.createElement("div");
-    handle.className = "resize-handle";
+  // when thumb inside any popup clicked -> show selected-window (use event delegation)
+  document.querySelectorAll('.popup-style').forEach(popup=>{
+    popup.addEventListener('click', (ev)=>{
+      const t = ev.target;
+      if(!t.classList.contains('popup-thumb')) return;
+      try {
+        const list = JSON.parse(t.dataset.list || '[]');
+        const rect = t.getBoundingClientRect();
+        const win = document.getElementById('selected-window');
+        // 기존: win.style.left = rect.left + 'px';
+// 기존: win.style.top  = (rect.bottom + 8) + 'px';
+// 기존: win.style.display = 'block';
 
-    /* ===== 삭제 버튼 ===== */
-    const delBtn = document.createElement("div");
-    delBtn.className = "control-btn delete-btn";
-    delBtn.innerHTML = "×";
-    delBtn.onclick = () => wrapper.remove();
+// 대체할 안전한 위치 계산 코드 -> 이미지 오른쪽에 띄우고, 화면을 벗어나면 왼쪽으로 전환
+const gap = 8; // 이미지와 팝업 사이 간격
 
-    
+// 먼저 보이게 해서 offsetWidth/offsetHeight를 얻을 수 있게 함
+win.style.display = 'block';
+win.setAttribute('aria-hidden','false');
 
-    /* ===== 회전 버튼 ===== */
-    const rotateBtn = document.createElement("div");
-    rotateBtn.className = "control-btn rotate-btn";
-    rotateBtn.innerHTML = "⟳";
-    rotateBtn.onclick = () => {
-        let angle = Number(wrapper.dataset.rotate || 0);
-        angle += 15;
-        wrapper.dataset.rotate = angle;
-        wrapper.style.transform = `rotate(${angle}deg)`;
-        
-    };
+// 너비/높이 얻기
+const popupW = win.offsetWidth || 300;
+const popupH = win.offsetHeight || 200;
 
-    wrapper.appendChild(st);
-    wrapper.appendChild(handle);
-    wrapper.appendChild(delBtn);
-    wrapper.appendChild(rotateBtn);
+// 기준 rect (이미지 박스)
+const winRight = rect.right;
+const winLeft = rect.left;
+const winTop = rect.top;
 
-    uploadBox.appendChild(wrapper);
+// 기본 위치: 이미지 오른쪽, 이미지의 top 맞춤
+let left = Math.round(winRight + gap);
+let top  = Math.round(winTop);
 
-    makeDraggable(wrapper);
-    makeResizable(wrapper, handle);
+// 만약 오른쪽으로 배치했을 때 화면 오른쪽을 벗어나면
+if (left + popupW > window.innerWidth - 8) {
+  // 왼쪽에 붙여서 보여줌
+  left = Math.round(winLeft - popupW - gap);
 }
 
+// 화면 왼쪽으로도 벗어나면 최소값으로 고정
+if (left < 8) left = 8;
 
-        /* ------------------------------
-        스티커 드래그 이벤트
-        ------------------------------ */
-        function makeDraggable(wrapper) {
-            let isDown = false;
-            let offsetX = 0, offsetY = 0;
+// 세로로 화면을 벗어나면 위로 당기기
+if (top + popupH > window.innerHeight - 8) {
+  top = Math.max(8, window.innerHeight - popupH - 8);
+}
 
-            wrapper.addEventListener("mousedown", e => {
-                if (e.target.classList.contains("resize-handle")) return;
+// 적용
+win.style.left = left + 'px';
+win.style.top  = top  + 'px';
 
-                isDown = true;
-                offsetX = e.offsetX;
-                offsetY = e.offsetY;
+        win.setAttribute('aria-hidden','false');
 
-                wrapper.style.zIndex = Number(wrapper.style.zIndex || 10) + 1;
-            });
-
-            document.addEventListener("mouseup", () => isDown = false);
-
-            document.addEventListener("mousemove", e => {
-                if (!isDown) return;
-
-                const rect = uploadBox.getBoundingClientRect();
-                wrapper.style.left = (e.pageX - rect.left - offsetX) + "px";
-                wrapper.style.top = (e.pageY - rect.top - offsetY) + "px";
-            });
-        }
-
-        /* ------------------------------
-        크기 조절 이벤트
-        ------------------------------ */
-        function makeResizable(wrapper, handle) {
-            let resizing = false;
-
-            handle.addEventListener("mousedown", e => {
-                resizing = true;
-                e.stopPropagation();
-            });
-
-            document.addEventListener("mouseup", () => resizing = false);
-
-            document.addEventListener("mousemove", e => {
-                if (!resizing) return;
-
-                const rect = wrapper.getBoundingClientRect();
-                const newWidth = e.pageX - rect.left;
-
-                if (newWidth > 40) {
-                    wrapper.style.width = newWidth + "px";
-                }
-            });
-        }
-
-        /* ------------------------------
-        이미지 저장
-        ------------------------------ */
-        document.getElementById("saveBtn").addEventListener("click", () => {
-            const canvas = document.createElement("canvas");
-            canvas.width = uploadBox.offsetWidth;
-            canvas.height = uploadBox.offsetHeight;
-            const ctx = canvas.getContext("2d");
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0,0,canvas.width, canvas.height);
-
-            if (bgImage.src) {
-                ctx.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height);
-            }
-
-            document.querySelectorAll(".sticker-wrapper").forEach(w => {
-                const img = w.querySelector("img");
-                const x = parseInt(w.style.left);
-                const y = parseInt(w.style.top);
-                const wdt = w.offsetWidth;
-                const hgt = img.offsetHeight * (wdt / img.naturalWidth);
-
-                ctx.drawImage(img, x, y, img.width, img.height);
-            });
-
-            const link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
-            link.download = "final_image.png";
-            link.click();
+        // build preview
+        const preview = document.getElementById('selected-preview-real');
+        preview.innerHTML = '';
+        preview.style.position = 'relative';
+        list.forEach(obj => {
+          const p = document.createElement('img');
+          p.src = obj.src;
+          p.style.position = 'absolute';
+          p.style.left = (obj.left - 100) + 'px';
+          p.style.top  = (obj.top  - 150) + 'px';
+          p.style.width = '300px';
+          p.style.pointerEvents = 'none';
+          preview.appendChild(p);
         });
-        document.getElementById("closeSelected").addEventListener("click", () => {
-    document.getElementById("selected-window").style.display = "none";
-});
 
-    </script>
+        // apply button
+        document.getElementById('applyStickerBtn').onclick = ()=> {
+          list.forEach(o => addSticker(o));
+        };
+      } catch(err){
+        console.error('invalid data-list JSON', err, t.dataset.list);
+      }
+    });
+  });
 
+  // add sticker function
+  function addSticker(obj){
+    const w = document.createElement('div');
+    w.className = 'sticker-wrapper';
+    w.style.left = obj.left + 'px';
+    w.style.top  = obj.top  + 'px';
+    w.dataset.rotate = '0';
+
+    const img = document.createElement('img');
+    img.src = obj.src;
+    img.alt = '';
+    img.draggable = false;
+    img.style.width = '100%';
+
+    const handle = document.createElement('div');
+    handle.className = 'resize-handle';
+
+    const del = document.createElement('div');
+    del.className = 'control-btn delete-btn';
+    del.textContent = '×';
+
+    const rot = document.createElement('div');
+    rot.className = 'control-btn rotate-btn';
+    rot.textContent = '⟳';
+
+    w.appendChild(img);
+    w.appendChild(handle);
+    w.appendChild(del);
+    w.appendChild(rot);
+
+    uploadBox.appendChild(w);
+
+    makeDraggable(w);
+    makeResizable(w, handle);
+  }
+
+  // event delegation for delete / rotate
+  uploadBox.addEventListener('click', (e)=>{
+    const t = e.target;
+    if(t.classList.contains('delete-btn')){
+      const wrap = t.closest('.sticker-wrapper');
+      if(wrap) wrap.remove();
+    } else if(t.classList.contains('rotate-btn')){
+      const wrap = t.closest('.sticker-wrapper');
+      if(wrap){
+        let a = Number(wrap.dataset.rotate||0) + 15;
+        wrap.dataset.rotate = a;
+        wrap.style.transform = `rotate(${a}deg)`;
+      }
+    }
+  });
+
+  // drag move
+  function makeDraggable(el){
+    let down = false, offX=0, offY=0;
+    el.addEventListener('mousedown', e=>{
+      // ignore clicks on controls / handles
+      if(e.target.classList.contains('resize-handle') || e.target.classList.contains('control-btn')) return;
+      down = true;
+      const r = el.getBoundingClientRect();
+      offX = e.clientX - r.left;
+      offY = e.clientY - r.top;
+      el.style.zIndex = (Number(el.style.zIndex||10)+1);
+      e.preventDefault();
+    });
+    document.addEventListener('mouseup', ()=> down=false);
+    document.addEventListener('mousemove', e=>{
+      if(!down) return;
+      const boxRect = uploadBox.getBoundingClientRect();
+      let nx = e.clientX - boxRect.left - offX;
+      let ny = e.clientY - boxRect.top  - offY;
+      // clamp (optional)
+      if(nx < -300) nx = -300;
+      if(ny < -300) ny = -300;
+      el.style.left = nx + 'px';
+      el.style.top  = ny + 'px';
+    });
+  }
+
+  // resize handle
+  function makeResizable(el, handle){
+    let resizing = false;
+    handle.addEventListener('mousedown', (e)=> { resizing = true; e.stopPropagation(); e.preventDefault(); });
+    document.addEventListener('mouseup', ()=> resizing = false);
+    document.addEventListener('mousemove', (e)=>{
+      if(!resizing) return;
+      const rect = el.getBoundingClientRect();
+      let newW = e.clientX - rect.left;
+      if(newW < 30) newW = 30;
+      el.style.width = newW + 'px';
+    });
+  }
+
+  // save composition to canvas
+  document.getElementById('saveBtn').addEventListener('click', ()=>{
+    const canvas = document.createElement('canvas');
+    canvas.width  = uploadBox.clientWidth;
+    canvas.height = uploadBox.clientHeight;
+    const ctx = canvas.getContext('2d');
+
+    // white bg
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // draw background (object-fit:contain)
+    if(bgImage && bgImage.src){
+      const bw = bgImage.naturalWidth, bh = bgImage.naturalHeight;
+      const cw = uploadBox.clientWidth, ch = uploadBox.clientHeight;
+      let drawW = cw, drawH = ch, drawX = 0, drawY = 0;
+      if(bw && bh){
+        const ratioImg = bw / bh;
+        const ratioBox = cw / ch;
+        if(ratioImg > ratioBox){
+          drawW = cw; drawH = cw / ratioImg; drawX = 0; drawY = (ch - drawH) / 2;
+        } else {
+          drawH = ch; drawW = ch * ratioImg; drawY = 0; drawX = (cw - drawW) / 2;
+        }
+        ctx.drawImage(bgImage, drawX, drawY, drawW, drawH);
+      }
+    }
+
+    // draw stickers
+    document.querySelectorAll('.sticker-wrapper').forEach(w => {
+      const img = w.querySelector('img');
+      if(!img || !img.naturalWidth) return;
+      const x = parseInt(w.style.left) || 0;
+      const y = parseInt(w.style.top)  || 0;
+      const wdt = w.offsetWidth;
+      const hgt = img.naturalHeight * (wdt / img.naturalWidth);
+      const angle = Number(w.dataset.rotate || 0) * Math.PI / 180;
+      if(angle !== 0){
+        ctx.save();
+        const cx = x + wdt/2;
+        const cy = y + hgt/2;
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.drawImage(img, -wdt/2, -hgt/2, wdt, hgt);
+        ctx.restore();
+      } else {
+        ctx.drawImage(img, x, y, wdt, hgt);
+      }
+    });
+
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'final_image.png';
+    link.click();
+  });
+
+  
+
+  console.log('script initialized');
+}); // DOMContentLoaded end
+</script>
 </body>
 </html>
-
-
-
-
-
