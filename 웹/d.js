@@ -9,8 +9,9 @@ const canvas = document.getElementById('editor');
     let lastX, lastY;
 
     function draw() {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+     const bgColor = window.getComputedStyle(uploadBox).backgroundColor || '#fff';
+ctx.fillStyle = bgColor;
+ctx.fillRect(0,0,canvas.width,canvas.height);
 
       Object.entries(images).forEach(([key, obj]) => {
         ctx.save();

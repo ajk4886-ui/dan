@@ -72,9 +72,33 @@
   .resize-handle { width:18px; height:18px; background:#fff; border:2px solid #000; position:absolute; right:-10px; bottom:-10px; cursor:se-resize; }
   .control-btn { position:absolute; top:-12px; width:22px; height:22px; border:2px solid #000; background:#fff; text-align:center; cursor:pointer; display:flex; align-items:center; justify-content:center; }
   .rotate-btn { right:20px; } .delete-btn { right:-12px; }
+  /* CAMERA */
+#camera-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:5000;
+}
+#camera-box{
+  background:#fff;
+  padding:12px;
+  border:2px solid #000;
+}
+#camera-box video{
+  width:360px;
+  display:block;
+  margin-bottom:8px;
+}
+
+
 </style>
 </head>
 <body>
+    
+    
   <div id="left-panel">
     <a class="logo" href="index.html">M3m3tick3r</a>
     <div class="sub-title">S3l3ct sourc3 3motion</div>
@@ -92,6 +116,14 @@
       <img class="popup-thumb" src="img_11.png" data-list='[{"src":"img_11_3.png","left":120,"top":180}, {"src":"img_11_2.png","left":120,"top":450}]'>
       <img class="popup-thumb" src="img_9.png" data-list='[{"src":"img_9_2.png","left":100,"top":250}]'>
       <img class="popup-thumb" src="img_13.png" data-list='[{"src":"img_13.png","left":120,"top":180}]'>
+       <img class="popup-thumb" src="img_14.png" data-list='[{"src":"img_14.png","left":120,"top":180}]'>
+       <img class="popup-thumb" src="img_15_1.png" data-list='[{"src":"img_15.png","left":120,"top":160},{"src":"img_15_2.png","left":120,"top":250} ]'>
+       <img class="popup-thumb" src="img_16.png" data-list='[{"src":"img_16.png","left":120,"top":180}]'>
+       <img class="popup-thumb" src="img_17.png" data-list='[{"src":"img_17.png","left":120,"top":250},{"src":"img_17_2.png","left":120,"top":250} ]'>
+       <img class="popup-thumb" src="img_18.png" data-list='[{"src":"img_18.png","left":120,"top":180}]'>
+        <img class="popup-thumb" src="img_34.png" data-list='[{"src":"img_34.png","left":120,"top":400},{"src":"img_34_2.png","left":120,"top":180} ]'>
+       
+       
     </div>
 
     <!-- 팝업 2 -->
@@ -102,6 +134,14 @@
       <img class="popup-thumb" src="img_12.png" data-list='[{"src":"img_12_2.png","left":120,"top":250},{"src":"img_12_3.png","left":120,"top":250} ]'>
       <img class="popup-thumb" src="img_6.png" data-list='[{"src":"img_6.png","left":120,"top":250}]'>
       <img class="popup-thumb" src="img_2.png" data-list='[{"src":"img_2_2.png","left":120,"top":350},{"src":"img_2_3.png","left":120,"top":180} ]'>
+      <img class="popup-thumb" src="img_19.png" data-list='[{"src":"img_19.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_20.png" data-list='[{"src":"img_20.png","left":120,"top":400},{"src":"img_20_2.png","left":120,"top":180} ]'>
+      <img class="popup-thumb" src="img_21.png" data-list='[{"src":"img_21.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_22.png" data-list='[{"src":"img_22.png","left":120,"top":400},{"src":"img_22_2.png","left":120,"top":180} ]'>
+       <img class="popup-thumb" src="img_23.png" data-list='[{"src":"img_23.png","left":120,"top":400},{"src":"img_23_2.png","left":120,"top":180} ]'>
+       <img class="popup-thumb" src="img_32.png" data-list='[{"src":"img_32_2.png","left":120,"top":300},{"src":"img_32.png","left":120,"top":180} ]'>
+      
+       
 
     </div>
 
@@ -111,6 +151,16 @@
     <div id="popup2" class="popup-style" aria-hidden="true">
       <div class="closeBtn" data-for="popup2">×</div>
       <img class="popup-thumb" src="img_7.png" data-list='[{"src":"img_7.png","left":120,"top":180},{"src":"img_7_2.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_24.png" data-list='[{"src":"img_24.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_25.png" data-list='[{"src":"img_25.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img.png" data-list='[{"src":"img_1.png","left":120,"top":170},{"src":"img_1_1.png","left":120,"top":280},{"src":"img_1_3.png","left":120,"top":460} ]'>
+      <img class="popup-thumb" src="img_26.png" data-list='[{"src":"img_26.png","left":120,"top":170},{"src":"img_26_2.png","left":120,"top":280},{"src":"img_26_3.png","left":120,"top":300} ]'>
+      <img class="popup-thumb" src="img_27.png" data-list='[{"src":"img_27_2.png","left":120,"top":180},{"src":"img_27.png","left":120,"top":400}]'>
+      <img class="popup-thumb" src="img_28.png" data-list='[{"src":"img_28_2.png","left":120,"top":180},{"src":"img_28.png","left":120,"top":400}]'>
+      <img class="popup-thumb" src="img_29.png" data-list='[{"src":"img_29.png","left":120,"top":180},{"src":"img_29_2.png","left":120,"top":250}]'>
+      <img class="popup-thumb" src="img_30_2.png" data-list='[{"src":"img_30_1.png","left":120,"top":180},{"src":"img_30.png","left":120,"top":300}]'>
+      <img class="popup-thumb" src="img_31.png" data-list='[{"src":"img_31.png","left":190,"top":180},{"src":"img_31_2.png","left":30,"top":300}]'>
+      <img class="popup-thumb" src="img_33.png" data-list='[{"src":"img_33.png","left":120,"top":140},{"src":"img_33_2.png","left":120,"top":300}]'>
     </div>
   </div>
 
@@ -122,7 +172,16 @@
   </div>
 
   <div id="right-panel">
-    <button id="uploadBtn">Upload Imag3</button>
+    <button id="uploadBtn">Upload Imag3</button> <button id="cameraBtn">📷 Camera</button>
+    <!-- Background Color Picker -->
+<div style="margin:10px 0;">
+  <label for="bg-color" style="margin-right:6px;">Background Color</label>
+  <input type="color" id="bg-color" value="#f5f5f5">
+  <button id="clear-bg-color">Reset</button>
+</div>
+
+    
+
     <input type="file" id="bg-upload" accept="image/*" style="display:none">
     <div id="upload-box">Drag & Drop imag3 h3r3
       <img id="bg-image" alt="">
@@ -149,6 +208,18 @@ document.addEventListener('DOMContentLoaded', ()=> {
     r.onload = ev => { bgImage.src = ev.target.result; };
     r.readAsDataURL(file);
   }
+// background color picker
+const bgColorInput = document.getElementById('bg-color');
+const clearBgColorBtn = document.getElementById('clear-bg-color');
+
+bgColorInput.addEventListener('input', () => {
+  uploadBox.style.background = bgColorInput.value;
+});
+
+clearBgColorBtn.addEventListener('click', () => {
+  uploadBox.style.background = '#f5f5f5';
+  bgColorInput.value = '#f5f5f5';
+});
 
   // map buttons to popup ids
   const map = { btn0:'popup0', btn1:'popup1', btn2:'popup2' };
@@ -409,11 +480,57 @@ win.style.top  = top  + 'px';
     link.download = 'final_image.png';
     link.click();
   });
+  /* CAMERA */
+const cameraBtn = document.getElementById('cameraBtn');
+const cameraModal = document.getElementById('camera-modal');
+const video = document.getElementById('camera-video');
+
+let cameraStream = null;
+
+cameraBtn.addEventListener('click', async () => {
+  cameraModal.style.display = 'flex';
+  cameraStream = await navigator.mediaDevices.getUserMedia({ video:true });
+  video.srcObject = cameraStream;
+});
+
+document.getElementById('closeCameraBtn').addEventListener('click', () => {
+  cameraModal.style.display = 'none';
+  if(cameraStream){
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+});
+
+document.getElementById('captureBtn').addEventListener('click', () => {
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+
+  // 🔥 기존 업로드랑 동일한 bg-image에 넣기
+  document.getElementById('bg-image').src = canvas.toDataURL('image/png');
+
+  cameraModal.style.display = 'none';
+  cameraStream.getTracks().forEach(t => t.stop());
+  cameraStream = null;
+});
+
 
   
 
   console.log('script initialized');
 }); // DOMContentLoaded end
 </script>
+<!-- CAMERA MODAL -->
+<div id="camera-modal">
+  <div id="camera-box">
+    <video id="camera-video" autoplay playsinline></video>
+    <div style="text-align:center;">
+      <button id="captureBtn">Capture</button>
+      <button id="closeCameraBtn">Close</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
